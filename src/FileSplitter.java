@@ -1,9 +1,11 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -13,24 +15,12 @@ import java.util.ArrayList;
 public class FileSplitter {
 
 	public static void main(String[] args) {
-		String usage = "java FileSplitter" + " [-docs DOCS_PATH] [-arts ARTICLES_PATH] \n\n";
-		String artsPath = null;
+
 		String docsPath = "docs";
-		int i = 0;
 
-		if ("-docs".equals(args[i])) {
-			docsPath = args[i + 1];
-			i++;
+		if ("-docs".equals(args[0])) {
+			docsPath = args[1];
 		}
-		// else if ("-arts".equals(args[i])) {
-		// artsPath = args[i+1];
-		// i++;
-		// }
-
-		// if (artsPath == null) {
-		// System.err.println("Usage: " + usage);
-		// System.exit(1);
-		// }
 
 		final File docsDir = new File(docsPath);
 		if (!docsDir.exists() || !docsDir.canRead()) {
@@ -42,29 +32,59 @@ public class FileSplitter {
 		}
 
 		BufferedReader in = null;
-
+		int i = 0;
 		String line = null;
-		ArrayList<String> docNo = new ArrayList<String>();
+		ArrayList<String> docNo = null;
 
 		try (DirectoryStream<Path> ds = Files.newDirectoryStream(FileSystems
 				.getDefault().getPath(docsPath))) {
 
 			for (Path p : ds) {
-				in = new BufferedReader(new FileReader(p.toFile()));
-				while ((line = in.readLine()) != null) {
+				docNo = new ArrayList<String>();
+				i = 0;
+				in = new BufferedReader(new FileReader(new File(p.toString())));
+
+				line = in.readLine();
+				do {
 					if ("<DOCNO>".equals(line)) {
 						docNo.add(in.readLine());
 					}
 
-				}
-			}
+				} while ((line = in.readLine()) != null);
 
+				in = new BufferedReader(new FileReader(new File(p.toString())));
+				System.out.println(p.toString());
+				// new code
+
+				File file = new File(
+						"/Users/Fiona/Documents/workspace/newDocs/"
+								+ docNo.get(i));
+				System.out.println(docNo.get(i));
+				BufferedWriter out = new BufferedWriter(new FileWriter(file));
+				line = in.readLine();
+				i++;
+				do {
+
+					if (line.startsWith("</DOC>")) {
+
+						out.write(line);
+						out.close();
+						if (i < docNo.size()) {
+							file = new File(
+									"/Users/Fiona/Documents/workspace/newDocs/"
+											+ docNo.get(i));
+							out = new BufferedWriter(new FileWriter(file));
+							i++;
+						}
+					} else {
+						out.write(line);
+						out.newLine();
+					}
+
+				} while ((line = in.readLine()) != null);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		for (String doc : docNo) {
-			System.out.println(doc);
 		}
 
 	}
