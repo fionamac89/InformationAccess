@@ -303,18 +303,16 @@ public class SearchFrame extends javax.swing.JFrame {
     
     
     private void populateTree() {
-        DefaultMutableTreeNode node = null;  
+        DefaultMutableTreeNode node = buildNodeFromString();  
         DefaultTreeModel model = new DefaultTreeModel(node);  
         JTree tree = new JTree(model); 
     }
     
     private DefaultMutableTreeNode buildNodeFromString() {
         DefaultMutableTreeNode node, lastNode = null, root = null;
-
+        root = new DefaultMutableTreeNode("Results for search: "+searchField.getText());
         for (ResultsSetup result : results) {
-            node = new DefaultMutableTreeNode("");     
-            if (root == null)
-               root = node;
+            node = new DefaultMutableTreeNode(result.getFileName());     
             if (lastNode != null)
                 lastNode.add(node);
             lastNode = node;

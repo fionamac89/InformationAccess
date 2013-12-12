@@ -100,7 +100,7 @@ public class SearchSys {
 		indexReader = DirectoryReader.open(this.dir);
 		this.indexSearcher = new IndexSearcher(indexReader);
 		QueryParser parser = new QueryParser(SearchSys.LUCENE_VERSION, FileSearcher.FIELD_CONTENT, this.Alyz);
-		Q = parser.parse(this.query);
+		Q = parser.parse(QueryParser.escape(this.query));
 		this.searchResult = this.indexSearcher.search(Q, null, 1000);
 		this.resultHandler();
 		indexReader.close();
