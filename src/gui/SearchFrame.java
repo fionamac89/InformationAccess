@@ -13,7 +13,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.lucene.queryparser.classic.ParseException;
-import searcher.ResultsSetup;
+import searcher.Results;
 import searcher.SearchSys;
 
 /**
@@ -24,7 +24,7 @@ import searcher.SearchSys;
 public class SearchFrame extends javax.swing.JFrame {
     
     private SearchSys s = null;
-    private List<ResultsSetup> results = null;
+    private List<Results> results = null;
     /**
      * Creates new form SearchFrame
      */
@@ -291,7 +291,7 @@ public class SearchFrame extends javax.swing.JFrame {
         if(searchField.equals("")) {
             JOptionPane.showConfirmDialog(this, "You must enter text to be able to perform a search.", "Search", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_OPTION);
         } else {
-            s = new SearchSys("/Users/Fiona/Documents/workspace/index",searchField.getText().trim().toLowerCase());
+            s = new SearchSys("C:/Users/Antony/git/InformationAccess/index",searchField.getText().trim().toLowerCase());
             try {
 			results = s.search();
 		} catch (IOException | ParseException  e) {
@@ -311,7 +311,7 @@ public class SearchFrame extends javax.swing.JFrame {
     private DefaultMutableTreeNode buildNodeFromString() {
         DefaultMutableTreeNode node, lastNode = null, root = null;
         root = new DefaultMutableTreeNode("Results for search: "+searchField.getText());
-        for (ResultsSetup result : results) {
+        for (Results result : results) {
             node = new DefaultMutableTreeNode(result.getFileName());     
             if (lastNode != null)
                 lastNode.add(node);

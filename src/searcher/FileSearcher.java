@@ -64,7 +64,7 @@ public class FileSearcher {
 	private String fileToString(File file) {
 		String content = "";
 		try {
-			content = new Scanner(new File(file.getAbsolutePath())).useDelimiter("\\Z").next();
+			content = new Scanner(new File(file.getAbsolutePath())).useDelimiter(";|\n").next();
 		} catch (FileNotFoundException e) {
 			System.err.printf("Cannot read the file %s: %s\n", file.getName(), e.getMessage());
 		}

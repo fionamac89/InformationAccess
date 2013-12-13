@@ -3,13 +3,13 @@ package searcher;
 import java.io.File;
 import java.util.List;
 
-public class ResultsSetup {
+public class Results {
 
 	private int position;
 	private String filePath;
 	private List<String> results;
 
-	public ResultsSetup(int position, String filePath, List<String> results) {
+	public Results(int position, String filePath, List<String> results) {
 		this.position = position;
 		this.filePath = filePath;
 		this.results = results;

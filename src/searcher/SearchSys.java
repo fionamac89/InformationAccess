@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.apache.lucene.analysis.Analyzer;
 //import org.apache.lucene.analysis.TokenStream;  Might need this for Highlighting, if we
 //implement it.
@@ -25,6 +24,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 
+
 /**
  * 
  * @author Paul Landsborough
@@ -36,6 +36,7 @@ import org.apache.lucene.util.Version;
 
 public class SearchSys {
 
+	
 	@SuppressWarnings("deprecation")
 	private static final Version LUCENE_VERSION = Version.LUCENE_CURRENT;
 
@@ -49,7 +50,7 @@ public class SearchSys {
 
 	private Query Q;
 
-	private List<ResultsSetup> searchResults;
+	private List<Results> searchResults;
 
 	/**
 	 * This creates an instance of the searcher, which is given the root i.e. the 
@@ -64,9 +65,10 @@ public class SearchSys {
 		this.query = que;
 		this.dir = new RAMDirectory();
 		this.Alyz = new StandardAnalyzer(SearchSys.LUCENE_VERSION);
+		//System.out.println("hfxjdzgdjfgh");
 	}
 
-	public List<ResultsSetup> search() throws IOException, ParseException {
+	public List<Results> search() throws IOException, ParseException {
 		this.IndexSetup();
 		this.IndexQuery();
 		return this.searchResults;
@@ -76,9 +78,10 @@ public class SearchSys {
 	   * error may be thrown if the root contains no files/documents
 	 */
 	private void IndexSetup() throws IOException {
+		//System.out.println("hfxjdzgdjfgh");
 		IndexWriterConfig config = new IndexWriterConfig(SearchSys.LUCENE_VERSION, Alyz);
 		IndexWriter IW = new IndexWriter(this.dir, config);
-		this.parseDoc(IW); //Will not run the now as I need an XML parser
+		this.parseDoc(IW); 
 		IW.close();
 	}
 	/*
@@ -87,8 +90,14 @@ public class SearchSys {
 	 * if the root is empty.
 	 */
 	private void parseDoc(IndexWriter IW) throws IOException {
-		//* TODO
-		
+		//System.out.println("hfxjdzgdjfgh");
+		List<File> files = new XMLParser(this.root).getParsedFiles();
+		List<Document> docs = new FileSearcher(files).getDocuments();
+		System.out.println("" + docs);
+		for (Document doc : docs) {
+			IW.addDocument(doc);
+			//System.out.println("" +doc);
+		}
 	}
 	/**
 	 * This inspects an index of documents after being given a users query.
@@ -97,10 +106,11 @@ public class SearchSys {
 	 *
 	 */
 	private void IndexQuery() throws IOException, ParseException {
+		//System.out.println("hfxjdzgdjfgh");
 		indexReader = DirectoryReader.open(this.dir);
 		this.indexSearcher = new IndexSearcher(indexReader);
 		QueryParser parser = new QueryParser(SearchSys.LUCENE_VERSION, FileSearcher.FIELD_CONTENT, this.Alyz);
-		Q = parser.parse(QueryParser.escape(this.query));
+		Q = parser.parse(this.query);
 		this.searchResult = this.indexSearcher.search(Q, null, 1000);
 		this.resultHandler();
 		indexReader.close();
@@ -112,21 +122,23 @@ public class SearchSys {
 	 * @throws IOException
 	 */
 	private void resultHandler() throws IOException {
-		this.searchResults = new ArrayList<ResultsSetup>();
-		
+		this.searchResults = new ArrayList<Results>();
+		//System.out.println("hfxjdzgdjfgh");
 
 		ScoreDoc[] NumOfHits = this.searchResult.scoreDocs;
-		ResultsSetup res;
+		Results res;
 		List<String> results;
+		System.out.println("" + NumOfHits.length);
 
 		for (int i = 0; i < NumOfHits.length; i++) {
 			results = new ArrayList<String>();
 			int id = NumOfHits[i].doc;
 			Document doc = indexSearcher.doc(id);
-			String text = doc.get(FileSearcher.FIELD_CONTENT); /* Start of highlighting stuff
-			need the Parser before I can continue on it */
-			res = new ResultsSetup(i + 1, doc.get(FileSearcher.FIELD_FILENAME), results);
+			String text = doc.get(FileSearcher.FIELD_CONTENT); // Start of highlighting stuff
+			
+			res = new Results(i + 1, doc.get(FileSearcher.FIELD_FILENAME), results);
 			this.searchResults.add(res);
+			
 		}
 	}
 
@@ -141,8 +153,15 @@ public class SearchSys {
 		String fileOrDir = args[1];
 
 		SearchSys s = new SearchSys(fileOrDir, queryString);
+		//SearchSys searcher = new SearchSys("C:/Users/Antony/git/InformationAccess/index", "st");
+
+		
 		try {
 			s.search();
+			System.out.println("" +fileOrDir);
+			System.out.println("" +queryString);
+			
+			
 		} catch (IOException | ParseException  e) {
 			System.err.printf("Error within search '%s' for '%s': %s\n", fileOrDir, queryString, e.getMessage());
 		}
