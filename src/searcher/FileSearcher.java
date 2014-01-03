@@ -12,6 +12,7 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.TextField;
 
+
 public class FileSearcher {
 
 	public static final String FIELD_FILENAME = "name";

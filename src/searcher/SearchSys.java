@@ -91,13 +91,13 @@ public class SearchSys {
 	 */
 	private void parseDoc(IndexWriter IW) throws IOException {
 		//System.out.println("hfxjdzgdjfgh");
-		List<File> files = new XMLParser(this.root).getParsedFiles();
-		List<Document> docs = new FileSearcher(files).getDocuments();
-		System.out.println("" + docs);
-		for (Document doc : docs) {
-			IW.addDocument(doc);
+		//List<File> files = new XMLParser(this.root).getParsedFiles();
+		//List<Document> docs = new FileSearcher(files).getDocuments();
+		//System.out.println("" + docs);
+		//for (Document doc : docs) {
+		//	IW.addDocument(doc);
 			//System.out.println("" +doc);
-		}
+		//}
 	}
 	/**
 	 * This inspects an index of documents after being given a users query.

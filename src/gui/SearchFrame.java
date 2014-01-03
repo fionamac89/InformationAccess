@@ -8,11 +8,13 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.apache.lucene.queryparser.classic.ParseException;
+
+import parser.Article;
+import parser.JournalArticles;
 import searcher.Results;
 import searcher.SearchSys;
 
@@ -24,13 +26,22 @@ import searcher.SearchSys;
 public class SearchFrame extends javax.swing.JFrame {
     
     private SearchSys s = null;
+
+    private JournalArticles journal = null;
+    private List<Article> articles = null;
+
     private List<Results> results = null;
+
     /**
      * Creates new form SearchFrame
      */
     public SearchFrame() {
         initComponents();
         viewPanel.setVisible(false);
+        journal = new JournalArticles();
+        journal.createObjs();
+        articles = journal.returnJournal();
+        
     }
 
     /**
@@ -81,7 +92,12 @@ public class SearchFrame extends javax.swing.JFrame {
         searchButton.setName("searchButton"); // NOI18N
         searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
+                try {
+					searchButtonActionPerformed(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -164,9 +180,13 @@ public class SearchFrame extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Wall Street Articles");
         docTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        docTree.setEditable(true);
         docTree.setName("docTree"); // NOI18N
         docTree.setRowHeight(14);
+        docTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                docTreeValueChanged(evt);
+            }
+        });
         treeScroll.setViewportView(docTree);
         docTree.getAccessibleContext().setAccessibleName("docTree");
 
@@ -278,46 +298,54 @@ public class SearchFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         viewPanel.setVisible(true);
         searchPanel.setVisible(false);
+        this.populateTree();
     }//GEN-LAST:event_docViewButtonActionPerformed
 
     private void searchViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchViewButtonActionPerformed
         // TODO add your handling code here:
         searchPanel.setVisible(true);
         viewPanel.setVisible(false);
+        docPane.setText("");
     }//GEN-LAST:event_searchViewButtonActionPerformed
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
         if(searchField.equals("")) {
             JOptionPane.showConfirmDialog(this, "You must enter text to be able to perform a search.", "Search", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_OPTION);
         } else {
-            s = new SearchSys("C:/Users/Antony/git/InformationAccess/index",searchField.getText().trim().toLowerCase());
-            try {
-			results = s.search();
-		} catch (IOException | ParseException  e) {
-			System.err.printf("Error within search: %s\n",e.getMessage());
-		}
+            s = new SearchSys("/Users/Fiona/Documents/workspace/index",searchField.getText().trim().toLowerCase());
             this.populateTree();
         }
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void docTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_docTreeValueChanged
+        
+    String node = evt.getNewLeadSelectionPath().getLastPathComponent().toString();
+    if( node.equals("WSJ"+articles.get(0).getDocId()) ) {
+        docPane.setText(articles.get(0).printAll());
+    } else if( node.equals("WSJ"+articles.get(0).getDocId())  ) {
+       docPane.setText(articles.get(0).printAll());
+    } else if ( node.equals("WSJ"+articles.get(0).getDocId()) ) {
+       docPane.setText(articles.get(0).printAll()); 
+    }
+    
+    docPane.updateUI();
+    }//GEN-LAST:event_docTreeValueChanged
     
     
     private void populateTree() {
         DefaultMutableTreeNode node = buildNodeFromString();  
         DefaultTreeModel model = new DefaultTreeModel(node);  
-        JTree tree = new JTree(model); 
+        docTree.setModel(model);
     }
     
     private DefaultMutableTreeNode buildNodeFromString() {
-        DefaultMutableTreeNode node, lastNode = null, root = null;
-        root = new DefaultMutableTreeNode("Results for search: "+searchField.getText());
-        for (Results result : results) {
-            node = new DefaultMutableTreeNode(result.getFileName());     
-            if (lastNode != null)
-                lastNode.add(node);
-            lastNode = node;
+        DefaultMutableTreeNode node=null, root = null;
+        root = new DefaultMutableTreeNode("Related Documents: "+searchField.getText());
+        for (Article a : articles) {
+            node = new DefaultMutableTreeNode("WSJ"+a.getDocId());  
+            root.add(node);      
         }
-
     return root;
 }
     /**
