@@ -19,19 +19,17 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class xmlParser extends DefaultHandler{
 
-	List<Article> articleList;
-	String file;
-	String xmlFile;
-	String tmpValue;
-	Article articleTemp;
-	String currentLine;
+	String file = "";
+	String xmlFile = "";
+	String tmpValue = "";
+	Article articleTemp = null;
+	String currentLine = "";
+	StringBuffer accumulator = new StringBuffer();
 
 	public xmlParser(String file)
 	{
 		this.file = file;
-		articleList = new ArrayList<Article>();
 		parseDocument();
-		//printDatas();
 	}
 
 	private void parseDocument(){
@@ -48,22 +46,13 @@ public class xmlParser extends DefaultHandler{
 		}
 
 	}
-	
-	private void printDatas(){
-		for(Article art: articleList)
-		{
-			System.out.println(art.printAll());
-		}
-
-	}
 
 	@Override
 
 	public void startElement(String s, String s1, String elementName, Attributes attributes) throws SAXException {
-		
+		accumulator.setLength(0);
 		if (elementName.equalsIgnoreCase("doc")) {
 			articleTemp = new Article();
-			articleList.add(articleTemp);
 		}
 
 	}
@@ -73,30 +62,36 @@ public class xmlParser extends DefaultHandler{
 		//System.out.println(element +  tmpValue + "END");
 		
 		if (element.equalsIgnoreCase("docno")) {
-			articleTemp.setDocNo(tmpValue);
+			articleTemp.setDocNo(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("docid")) {
-			articleTemp.setDocId(tmpValue);
+			articleTemp.setDocId(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("hl")) {
-			articleTemp.setHeadLine(tmpValue);
+			articleTemp.setHeadLine(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("date")) {
-			articleTemp.setDate(tmpValue);
+			articleTemp.setDate(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("so")) {
-			articleTemp.setsO(tmpValue);
+			articleTemp.setSo(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("co")) {
-			articleTemp.setLeadPar(tmpValue);
+			articleTemp.setCo(accumulator.toString().trim());
+		}
+		if (element.equalsIgnoreCase("gv")) {
+			articleTemp.setGv(accumulator.toString().trim());
+		}
+		if (element.equalsIgnoreCase("in")) {
+			articleTemp.setIn(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("lp")) {
-			articleTemp.setLeadPar(tmpValue);
+			articleTemp.setLeadPar(accumulator.toString().trim());
 		}
 		if (element.equalsIgnoreCase("text")) {
-			articleTemp.setBody(tmpValue);
+			articleTemp.setBody(accumulator.toString().trim());
 		}
-		tmpValue = "";
+		
 	}
 	
 	public Article finishedArticle()
@@ -107,11 +102,11 @@ public class xmlParser extends DefaultHandler{
 	@Override
 	public void characters(char[] ac, int i, int j) throws SAXException {
  
-		currentLine = new String(ac, i, j);
+		accumulator.append(ac, i, j);
 		//System.out.println(currentLine);
-		tmpValue = tmpValue + currentLine;
-		tmpValue=tmpValue.replaceAll("\n", "");
-		StringEscapeUtils.escapeXml(tmpValue);
+		//tmpValue = tmpValue + currentLine;
+		//tmpValue=tmpValue.replaceAll("\n", "");
+		//StringEscapeUtils.escapeXml(tmpValue);
 		//currentLine=currentLine.replaceAll("&(?!amp;)", "&amp;");
 	}
 	

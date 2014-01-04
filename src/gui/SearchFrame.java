@@ -168,7 +168,8 @@ public class SearchFrame extends javax.swing.JFrame {
 
         textScroll.setName("textScroll"); // NOI18N
 
-        docPane.setEnabled(false);
+        docPane.setEnabled(true);
+        docPane.setEditable(false);
         docPane.setSelectionColor(new java.awt.Color(204, 204, 204));
         textScroll.setViewportView(docPane);
 

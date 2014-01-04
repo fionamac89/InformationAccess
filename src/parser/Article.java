@@ -2,8 +2,8 @@ package parser;
 
 public class Article {
 	
-	String docNo, docId, headLine, date, sO, iN,
-		   gv, leadPar, body;
+	String docNo, docId, headLine, date, so, in,
+		   gv, leadPar, body = "NO TEXT", co;
 	
 	public Article(){
 		
@@ -11,8 +11,8 @@ public class Article {
 	
 	public String printAll()
 	{
-		String result = docNo+" "+docId+" "+headLine+" "+date+" "+sO+" "+iN
-				+" "+gv+" "+leadPar+" "+body;
+		String result = docNo+"\n"+docId+"\n"+headLine+"\n"+date+"\n"+so+"\n"+co+"\n"+gv
+				+"\n"+in+"\n"+leadPar+"\n"+body;
 		return result;
 	}
 
@@ -49,20 +49,20 @@ public class Article {
 		this.date = date;
 	}
 
-	public String getsO() {
-		return sO;
+	public String getSo() {
+		return so;
 	}
 
-	public void setsO(String sO) {
-		this.sO = sO;
+	public void setSo(String so) {
+		this.so = so;
 	}
 
-	public String getiN() {
-		return iN;
+	public String getIn() {
+		return in;
 	}
 
-	public void setiN(String iN) {
-		this.iN = iN;
+	public void setIn(String in) {
+		this.in = in;
 	}
 
 	public String getGv() {
@@ -73,6 +73,14 @@ public class Article {
 		this.gv = gv;
 	}
 
+	public String getCo() {
+		return co;
+	}
+
+	public void setCo(String co) {
+		this.co = co;
+	}
+	
 	public String getLeadPar() {
 		return leadPar;
 	}
