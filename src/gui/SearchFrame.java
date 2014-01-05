@@ -409,10 +409,13 @@ public class SearchFrame extends javax.swing.JFrame {
 		searchPanel.setVisible(true);
 		viewPanel.setVisible(false);
 		docPane.setText("");
+		docTree.setModel(null);
+		
 	}// GEN-LAST:event_searchViewButtonActionPerformed
 
 	private void searchButtonActionPerformed(java.awt.event.ActionEvent evt)
 			throws IOException {// GEN-FIRST:event_searchButtonActionPerformed
+		
 		if (searchField.getText().length() < 2) {
 			JOptionPane.showConfirmDialog(this,
 					"You must enter a valid query to be able to perform a search.",
@@ -420,7 +423,7 @@ public class SearchFrame extends javax.swing.JFrame {
 					JOptionPane.OK_OPTION);
 			searchField.setText("");
 		} else {
-			String[] fields = {"body", "leadPar", "in"};
+			String[] fields = {"contents"};
 			system.search(searchField.getText(), fields);
 			articles = system.getResults();
 			this.populateTree();
@@ -435,6 +438,7 @@ public class SearchFrame extends javax.swing.JFrame {
 				.toString();
 		for(int i = 0; i < articles.size(); i++) {
 			if(articles.get(i).getDocNo().equalsIgnoreCase(node)) {
+				docPane.setText("");
 				docPane.setText(articles.get(i).printAll());
 				break;
 			}
@@ -448,6 +452,7 @@ public class SearchFrame extends javax.swing.JFrame {
 		DefaultMutableTreeNode node = buildNodeFromString();
 		DefaultTreeModel model = new DefaultTreeModel(node);
 		docTree.setModel(model);
+		docTree.updateUI();
 	}
 
 	private DefaultMutableTreeNode buildNodeFromString() {

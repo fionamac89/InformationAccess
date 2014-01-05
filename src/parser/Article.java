@@ -3,12 +3,43 @@ package parser;
 public class Article {
 	
 	String docNo, docId, headLine, date, so, in,
-		   gv, leadPar, body = "NO TEXT", co;
+		   gv, leadPar, body, co;
 	
 	public String printAll()
 	{
-		String result = docNo+"\n"+docId+"\n"+headLine+"\n"+date+"\n"+so+"\n"+co+"\n"+gv
-				+"\n"+in+"\n"+leadPar+"\n"+body;
+		
+		String result = "";
+		
+		if(docNo != null) {
+			result = result+docNo+"\n";
+		}
+		if(docId != null) {
+			result = result+docId+"\n";
+		}
+		if(headLine != null) {
+			result = result+headLine+"\n";
+		}
+		if(date != null) {
+			result = result+date+"\n";
+		}
+		if(so != null) {
+			result = result+so+"\n";
+		}
+		if(co != null) {
+			result = result+co+"\n";
+		}
+		if(gv != null) {
+			result = result+gv+"\n";
+		}
+		if(in != null) {
+			result = result+in+"\n";
+		}
+		if(leadPar != null) {
+			result = result+leadPar+"\n";
+		}
+		if(body != null) {
+			result = result+body+"\n";
+		}
 		return result;
 	}
 

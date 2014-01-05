@@ -40,22 +40,13 @@ public class ArticleIndexer {
 				"./index");
 		try {
 
-			/**
-			 * Create the index
-			 */
 			manager.createIndex();
 			System.out.println("Index created");
 
-			/**
-			 * Create a writer. Below method creates a writer and sets the
-			 * writer variable of the class
-			 */
 
 			manager.createIndexWriter();
 			System.out.println("Writer created");
-			/**
-			 * add data to index.
-			 */
+
 			manager.getJournal();
 			for (Article article : manager.list) {
 				manager.addDocToIndex(article);
@@ -184,12 +175,12 @@ public class ArticleIndexer {
 			document.add(new TextField("leadPar", article.getLeadPar(),
 					Field.Store.YES));
 		}
-		if (article.getBody().equalsIgnoreCase("no text")) {
-			;
-		} else {
+		if (article.getBody() != null) {
 			document.add(new TextField("body", article.getBody(),
 					Field.Store.YES));
 		}
+		
+		document.add(new TextField("contents", article.printAll(), Field.Store.NO));
 		IndexWriter writer = this.getIndexWriter();
 		writer.addDocument(document);
 		writer.commit();
