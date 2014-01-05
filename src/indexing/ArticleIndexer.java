@@ -2,14 +2,15 @@ package indexing;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -28,6 +29,7 @@ public class ArticleIndexer {
 	private IndexWriter writer = null;
 	private String indexDir = null;
 	private ArrayList<Article> list = new ArrayList<Article>();
+	private Version match = Version.LUCENE_43;
 
 	public ArticleIndexer(String indexDir) {
 		this.indexDir = indexDir;
@@ -35,7 +37,7 @@ public class ArticleIndexer {
 
 	public static void main(String[] args) {
 		ArticleIndexer manager = new ArticleIndexer(
-				"/Users/Fiona/Documents/workspace/index/");
+				"./index");
 		try {
 
 			/**
@@ -59,22 +61,7 @@ public class ArticleIndexer {
 				manager.addDocToIndex(article);
 				System.out.println(article.getDocId());
 			}
-			// manager.addDocToIndex(new xmlParser(
-			// "/Users/Fiona/Documents/workspace/newDocs/WSJ900416-0010")
-			// .finishedArticle());
-			// System.out.println("First article done");
-			// manager.addDocToIndex(new xmlParser(
-			// "/Users/Fiona/Documents/workspace/newDocs/WSJ900416-0011")
-			// .finishedArticle());
-			// System.out.println("Second article done");
-			// manager.addDocToIndex(new xmlParser(
-			// "/Users/Fiona/Documents/workspace/newDocs/WSJ900416-0012")
-			// .finishedArticle());
-			// System.out.println("Third article done");
-			// manager.addDocToIndex(new xmlParser(
-			// "/Users/Fiona/Documents/workspace/newDocs/WSJ900402-0195")
-			// .finishedArticle());
-			// System.out.println("Third article done");
+
 			manager.closeWriter();
 
 		} catch (Exception e) {
@@ -92,8 +79,9 @@ public class ArticleIndexer {
 		}
 
 		Directory dir = FSDirectory.open(indexDirFile);
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);
-		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_43,
+		Analyzer analyzer = new EnglishAnalyzer(match, EnglishAnalyzer.getDefaultStopSet(), CharArraySet.EMPTY_SET);
+		
+		IndexWriterConfig iwc = new IndexWriterConfig(match,
 				analyzer);
 
 		if (create) {
@@ -113,9 +101,9 @@ public class ArticleIndexer {
 
 		Directory dir = FSDirectory.open(indexDirFile);
 
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_43);
+		Analyzer analyzer = new EnglishAnalyzer(match, EnglishAnalyzer.getDefaultStopSet(), CharArraySet.EMPTY_SET);
 
-		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_43,
+		IndexWriterConfig iwc = new IndexWriterConfig(match,
 				analyzer);
 		iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
 		this.writer = new IndexWriter(dir, iwc);
