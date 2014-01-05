@@ -152,23 +152,23 @@ public class ArticleIndexer {
 		Document document = new Document();
 
 		// String docNo, docId, headLine, date, sO, iN, gv, leadPar, body;
-		if (article.getCo() != null) {
+		if (article.getDocNo() != null) {
 			document.add(new StringField("docno", article.getDocNo(),
 					Field.Store.YES));
 		}
-		if (article.getCo() != null) {
+		if (article.getDocId() != null) {
 			document.add(new StringField("docid", article.getDocId(),
 					Field.Store.YES));
 		}
-		if (article.getCo() != null) {
+		if (article.getHeadLine() != null) {
 			document.add(new StringField("headline", article.getHeadLine(),
 					Field.Store.YES));
 		}
-		if (article.getCo() != null) {
+		if (article.getDate() != null) {
 			document.add(new StringField("date", article.getDate(),
 					Field.Store.YES));
 		}
-		if (article.getCo() != null) {
+		if (article.getSo() != null) {
 			document.add(new StringField("so", article.getSo(), Field.Store.YES));
 		}
 		if (article.getCo() != null) {
