@@ -1,5 +1,6 @@
 package searcher;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,19 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.util.Version;
 
 import parser.Article;
-
+/**
+ * 
+ * @author Paul Antony
+ * 
+ * This was the new version of the search feature that Fiona had created it uses 
+ * a more useful analyser instead of the Standard Analyser that I had used previously.
+ * It results in allowing the words to be stemmed .
+ * 
+ * The documents produced are functioning as Articles and will have numerous fields setup
+ * in order to do more specific searches. (need to remove this sentence if we can't get it 
+ * working.
+ *
+ */
 public class Search {
 	private String query = "";
 	private List<Article> results = null;
@@ -25,7 +38,14 @@ public class Search {
 	private Analyzer analyzer = null;
 	private Version match = null;
 	private IndexSearcher indexSearcher = null;
-
+	
+/**New analyser was used to match words to the text within the documents, will also
+ * feature within the stemming ability of the project
+ *  
+ * @param query - This is the search query
+ * @param indexSearcher - This will allow for the traversal of documents
+ * @param fields 
+ */
 	public Search(String query, IndexSearcher indexSearcher, String[] fields) {
 		this.query = query;
 		this.fields = fields;
@@ -35,7 +55,9 @@ public class Search {
 		this.indexSearcher = indexSearcher;
 		results = new ArrayList<Article>();
 	}
-
+/**
+ * The search feature 
+ */
 	public void search() {
 		MultiFieldQueryParser parser = new MultiFieldQueryParser(this.match, this.fields, this.analyzer);
 		try {
