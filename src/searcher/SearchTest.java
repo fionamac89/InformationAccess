@@ -9,6 +9,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,7 @@ public class SearchTest {
 		IndexSearcher indexSearcher = null;
 		File indexDirFile = new File(indexDir);
 		Directory dir;
+		Version match = Version.LUCENE_43;
 		String[] fields = {"body", "in", "leadPar"};
 		try {
 			dir = FSDirectory.open(indexDirFile);
@@ -36,7 +38,7 @@ public class SearchTest {
 		}
 
 		indexSearcher = new IndexSearcher(indexReader);
-		search = new Search("credit", indexSearcher, fields);
+		search = new Search("credit", indexSearcher, fields, match);
 	}
 
 	@After

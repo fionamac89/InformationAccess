@@ -6,10 +6,19 @@
 
 package gui;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -43,356 +52,289 @@ public class SearchFrame extends javax.swing.JFrame {
 	 */
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed"
-	// desc="Generated Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
+	// <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-		searchGroup = new javax.swing.ButtonGroup();
-		searchPanel = new javax.swing.JPanel();
-		searchField = new javax.swing.JTextField();
-		searchButton = new javax.swing.JButton();
-		titleLabel = new javax.swing.JLabel();
-		simpleRadio = new javax.swing.JRadioButton();
-		advRadio = new javax.swing.JRadioButton();
-		docViewButton = new javax.swing.JButton();
-		viewPanel = new javax.swing.JPanel();
-		textScroll = new javax.swing.JScrollPane();
-		docPane = new javax.swing.JTextPane();
-		docTitle = new javax.swing.JLabel();
-		resultsLabel = new javax.swing.JLabel();
-		treeScroll = new javax.swing.JScrollPane();
-		docTree = new javax.swing.JTree();
-		searchViewButton = new javax.swing.JButton();
-		searchBar = new javax.swing.JMenuBar();
-		fileMenu = new javax.swing.JMenu();
-		exitItem = new javax.swing.JMenuItem();
+        searchPanel = new javax.swing.JPanel();
+        searchField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        titleLabel = new javax.swing.JLabel();
+        suggestLabel = new javax.swing.JLabel();
+        headLineBox = new javax.swing.JCheckBox();
+        tagsBox = new javax.swing.JCheckBox();
+        leadParBox = new javax.swing.JCheckBox();
+        bodyBox = new javax.swing.JCheckBox();
+        viewPanel = new javax.swing.JPanel();
+        textScroll = new javax.swing.JScrollPane();
+        docPane = new javax.swing.JTextPane();
+        docTitle = new javax.swing.JLabel();
+        resultsLabel = new javax.swing.JLabel();
+        treeScroll = new javax.swing.JScrollPane();
+        docTree = new javax.swing.JTree();
+        searchViewButton = new javax.swing.JButton();
+        searchBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        exitItem = new javax.swing.JMenuItem();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Wall Street Journal Viewer");
-		setMinimumSize(new java.awt.Dimension(480, 360));
-		setName("mainFrame"); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wall Street Journal Viewer");
+        setIconImage(Toolkit.getDefaultToolkit().getImage("Wall-Street-Searcher.png"));
+        setMinimumSize(new java.awt.Dimension(480, 360));
+        setName("mainFrame"); // NOI18N
+        setResizable(true);
+        setSize(new java.awt.Dimension(600, 800));
 
-		searchPanel.setName("searchPanel"); // NOI18N
-		searchPanel.setPreferredSize(new java.awt.Dimension(800, 600));
+        searchPanel.setName("searchPanel"); // NOI18N
+        searchPanel.setPreferredSize(new java.awt.Dimension(480, 600));
 
-		searchField.setName("searchField"); // NOI18N
-		searchField.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				searchFieldActionPerformed(evt);
-			}
-		});
+        searchField.setName("searchField"); // NOI18N
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
 
-		searchButton.setLabel("Search");
-		searchButton.setName("searchButton"); // NOI18N
-		searchButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				try {
+        searchButton.setLabel("Search");
+        searchButton.setName("searchButton"); // NOI18N
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
 					searchButtonActionPerformed(evt);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		});
+            }
+        });
 
-		titleLabel.setText("Wall Street Journal Viewer");
+        titleLabel.setText("Wall Street Journal Viewer");
 
-		searchGroup.add(simpleRadio);
-		simpleRadio.setText("Simple Search");
-		simpleRadio.setName("simpleRadio"); // NOI18N
+        suggestLabel.setName("suggestLabel"); // NOI18N
 
-		searchGroup.add(advRadio);
-		advRadio.setText("Advanced Search");
-		advRadio.setName("advRadio"); // NOI18N
+        headLineBox.setText("Headline");
+        headLineBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                SearchFrame.this.itemStateChanged(evt);
+            }
+        });
 
-		docViewButton.setText("Document Viewer");
-		docViewButton.setName("docViewButton"); // NOI18N
+        tagsBox.setText("Tags");
+        tagsBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                SearchFrame.this.itemStateChanged(evt);
+            }
+        });
 
-		javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(
-				searchPanel);
-		searchPanel.setLayout(searchPanelLayout);
-		searchPanelLayout
-				.setHorizontalGroup(searchPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								searchPanelLayout
-										.createSequentialGroup()
-										.addGap(44, 44, 44)
-										.addGroup(
-												searchPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																searchPanelLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				simpleRadio)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(
-																				advRadio))
-														.addComponent(
-																titleLabel))
-										.addContainerGap(301, Short.MAX_VALUE))
-						.addGroup(
-								javax.swing.GroupLayout.Alignment.TRAILING,
-								searchPanelLayout
-										.createSequentialGroup()
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(docViewButton)
-										.addContainerGap())
-						.addGroup(
-								javax.swing.GroupLayout.Alignment.TRAILING,
-								searchPanelLayout
-										.createSequentialGroup()
-										.addGap(32, 32, 32)
-										.addComponent(
-												searchField,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												337,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(searchButton)
-										.addGap(90, 90, 90)));
-		searchPanelLayout
-				.setVerticalGroup(searchPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								searchPanelLayout
-										.createSequentialGroup()
-										.addGap(53, 53, 53)
-										.addComponent(
-												titleLabel,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												54,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addGap(49, 49, 49)
-										.addGroup(
-												searchPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(
-																searchButton)
-														.addComponent(
-																searchField,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												searchPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(
-																simpleRadio)
-														.addComponent(advRadio))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												131, Short.MAX_VALUE)
-										.addComponent(docViewButton)
-										.addContainerGap()));
+        leadParBox.setText("Lead Paragraph");
+        leadParBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                SearchFrame.this.itemStateChanged(evt);
+            }
+        });
 
-		searchButton.getAccessibleContext().setAccessibleDescription("");
+        bodyBox.setText("Body");
+        bodyBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                SearchFrame.this.itemStateChanged(evt);
+            }
+        });
 
-		viewPanel.setName("viewPanel"); // NOI18N
-		viewPanel.setPreferredSize(new java.awt.Dimension(480, 340));
+        javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
+        searchPanel.setLayout(searchPanelLayout);
+        searchPanelLayout.setHorizontalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(searchPanelLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(titleLabel))
+                    .addGroup(searchPanelLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(suggestLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(searchPanelLayout.createSequentialGroup()
+                                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(searchField)
+                                    .addGroup(searchPanelLayout.createSequentialGroup()
+                                        .addComponent(headLineBox)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tagsBox)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(leadParBox)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bodyBox)))
+                                .addGap(48, 48, 48)
+                                .addComponent(searchButton)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        searchPanelLayout.setVerticalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchButton)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(headLineBox)
+                    .addComponent(tagsBox)
+                    .addComponent(leadParBox)
+                    .addComponent(bodyBox))
+                .addGap(34, 34, 34)
+                .addComponent(suggestLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addGap(29, 29, 29))
+        );
 
-		textScroll.setName("textScroll"); // NOI18N
+        searchButton.getAccessibleContext().setAccessibleDescription("");
+        suggestLabel.getAccessibleContext().setAccessibleDescription("");
 
-		docPane.setEnabled(true);
-		docPane.setEditable(false);
-		docPane.setSelectionColor(new java.awt.Color(204, 204, 204));
-		textScroll.setViewportView(docPane);
+        viewPanel.setName("viewPanel"); // NOI18N
+        viewPanel.setPreferredSize(new java.awt.Dimension(480, 600));
+        viewPanel.set
 
-		docTitle.setText("Document Viewer");
+        textScroll.setName("textScroll"); // NOI18N
 
-		resultsLabel.setText("Results");
+        docPane.setEditable(false);
+        docPane.setSelectionColor(new java.awt.Color(204, 204, 204));
+        textScroll.setViewportView(docPane);
 
-		treeScroll.setName("treeScroll"); // NOI18N
+        docTitle.setText("Document Viewer");
 
-		javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode(
-				"Wall Street Articles");
-		docTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-		docTree.setName("docTree"); // NOI18N
-		docTree.setRowHeight(14);
-		docTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-			public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-				docTreeValueChanged(evt);
-			}
-		});
-		treeScroll.setViewportView(docTree);
-		docTree.getAccessibleContext().setAccessibleName("docTree");
+        resultsLabel.setText("Results");
 
-		searchViewButton.setText("Search Page");
-		searchViewButton.setToolTipText("Return to Search Page");
-		searchViewButton.setName("searchViewButton"); // NOI18N
-		searchViewButton.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				searchViewButtonActionPerformed(evt);
-			}
-		});
+        treeScroll.setName("treeScroll"); // NOI18N
+        treeScroll.setSize(new java.awt.Dimension(200, 450));
+        //treeScroll.setPreferredSize(new java.awt.Dimension(200, 450));
 
-		javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(
-				viewPanel);
-		viewPanel.setLayout(viewPanelLayout);
-		viewPanelLayout
-				.setHorizontalGroup(viewPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								viewPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												viewPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addGroup(
-																javax.swing.GroupLayout.Alignment.TRAILING,
-																viewPanelLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				treeScroll,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				244,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(
-																				textScroll,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				346,
-																				Short.MAX_VALUE))
-														.addGroup(
-																viewPanelLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				resultsLabel,
-																				javax.swing.GroupLayout.PREFERRED_SIZE,
-																				244,
-																				javax.swing.GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																		.addComponent(
-																				docTitle,
-																				javax.swing.GroupLayout.DEFAULT_SIZE,
-																				346,
-																				Short.MAX_VALUE))
-														.addGroup(
-																javax.swing.GroupLayout.Alignment.TRAILING,
-																viewPanelLayout
-																		.createSequentialGroup()
-																		.addGap(0,
-																				0,
-																				Short.MAX_VALUE)
-																		.addComponent(
-																				searchViewButton)))
-										.addContainerGap()));
-		viewPanelLayout
-				.setVerticalGroup(viewPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								javax.swing.GroupLayout.Alignment.TRAILING,
-								viewPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												viewPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(
-																resultsLabel,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																38,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																docTitle,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																38,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(
-												viewPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(
-																treeScroll,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																textScroll,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																284,
-																javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-										.addComponent(searchViewButton)
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)));
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Wall Street Articles");
+        docTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        docTree.setEditable(true);
+        docTree.setName("docTree"); // NOI18N
+        docTree.setRowHeight(0);
+        //docTree.setPreferredSize(new java.awt.Dimension(200, 450));
+        
+        docTree.setCellRenderer(new ResultsCellRenderer());
+        docTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                docTreeValueChanged(evt);
+            }
+        });
+        treeScroll.setViewportView(docTree);
+        docTree.getAccessibleContext().setAccessibleName("docTree");
 
-		searchBar.setName("searchBar"); // NOI18N
+        searchViewButton.setText("Search Page");
+        searchViewButton.setToolTipText("Return to Search Page");
+        searchViewButton.setName("searchViewButton"); // NOI18N
+        searchViewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchViewButtonActionPerformed(evt);
+            }
+        });
 
-		fileMenu.setText("File");
-		fileMenu.setName("fileMenu"); // NOI18N
+        javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
+        viewPanel.setLayout(viewPanelLayout);
+        viewPanelLayout.setHorizontalGroup(
+            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(viewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(viewPanelLayout.createSequentialGroup()
+                        .addComponent(resultsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(docTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(treeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(searchViewButton)
+                .addGap(39, 39, 39))
+        );
+        viewPanelLayout.setVerticalGroup(
+            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, viewPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resultsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(docTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(treeScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(searchViewButton)
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
 
-		exitItem.setText("Exit");
-		exitItem.setName("exitItem"); // NOI18N
-		exitItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				exitItemActionPerformed(evt);
-			}
-		});
-		fileMenu.add(exitItem);
+        searchBar.setName("searchBar"); // NOI18N
 
-		searchBar.add(fileMenu);
+        fileMenu.setText("File");
+        fileMenu.setName("fileMenu"); // NOI18N
 
-		setJMenuBar(searchBar);
-		searchBar.getAccessibleContext().setAccessibleName("searchMenu");
+        exitItem.setText("Exit");
+        exitItem.setName("exitItem"); // NOI18N
+        exitItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exitItem);
 
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
-				getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addComponent(searchPanel,
-						javax.swing.GroupLayout.DEFAULT_SIZE, 608,
-						Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(viewPanel,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										608, Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addComponent(searchPanel,
-						javax.swing.GroupLayout.DEFAULT_SIZE, 381,
-						Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(viewPanel,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										381, Short.MAX_VALUE)));
+        searchBar.add(fileMenu);
 
-		getAccessibleContext().setAccessibleDescription("");
+        setJMenuBar(searchBar);
+        searchBar.getAccessibleContext().setAccessibleName("searchMenu");
 
-		pack();
-	}// </editor-fold>//GEN-END:initComponents
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(viewPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE))
+        );
+
+        getAccessibleContext().setAccessibleDescription("");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void docTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_docTreeValueChanged
+        		DefaultMutableTreeNode node = (DefaultMutableTreeNode) docTree
+				.getLastSelectedPathComponent();
+
+		if (node == null)
+			return;
+
+		Object nodeInfo = node.getUserObject();
+		if (node.isLeaf()) {
+			Article art = (Article) nodeInfo;
+			docPane.setText(art.printAll());
+		} else {
+			docPane.setText("Shit broke");
+		}
+
+		docPane.updateUI();
+    }//GEN-LAST:event_docTreeValueChanged
+
+    private void itemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemStateChanged
 
 	private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchFieldActionPerformed
-		// TODO add your handling code here:
+
 	}// GEN-LAST:event_searchFieldActionPerformed
 
 	private void exitItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_exitItemActionPerformed
@@ -410,20 +352,22 @@ public class SearchFrame extends javax.swing.JFrame {
 		viewPanel.setVisible(false);
 		docPane.setText("");
 		docTree.setModel(null);
-		
+
 	}// GEN-LAST:event_searchViewButtonActionPerformed
 
 	private void searchButtonActionPerformed(java.awt.event.ActionEvent evt)
 			throws IOException {// GEN-FIRST:event_searchButtonActionPerformed
-		
+
 		if (searchField.getText().length() < 2) {
-			JOptionPane.showConfirmDialog(this,
-					"You must enter a valid query to be able to perform a search.",
-					"Search", JOptionPane.WARNING_MESSAGE,
-					JOptionPane.OK_OPTION);
+			JOptionPane
+					.showConfirmDialog(
+							this,
+							"You must enter a valid query to be able to perform a search.",
+							"Search", JOptionPane.WARNING_MESSAGE,
+							JOptionPane.OK_OPTION);
 			searchField.setText("");
 		} else {
-			String[] fields = {"contents"};
+			String[] fields = { "contents" };
 			system.search(searchField.getText(), fields);
 			articles = system.getResults();
 			this.populateTree();
@@ -431,22 +375,6 @@ public class SearchFrame extends javax.swing.JFrame {
 			viewPanel.setVisible(true);
 		}
 	}// GEN-LAST:event_searchButtonActionPerformed
-
-	private void docTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {// GEN-FIRST:event_docTreeValueChanged
-
-		String node = evt.getNewLeadSelectionPath().getLastPathComponent()
-				.toString();
-		for(int i = 0; i < articles.size(); i++) {
-			if(articles.get(i).getDocNo().equalsIgnoreCase(node)) {
-				docPane.setText("");
-				docPane.setText(articles.get(i).printAll());
-				break;
-			}
-		}
-		
-
-		docPane.updateUI();
-	}// GEN-LAST:event_docTreeValueChanged
 
 	private void populateTree() {
 		DefaultMutableTreeNode node = buildNodeFromString();
@@ -457,10 +385,10 @@ public class SearchFrame extends javax.swing.JFrame {
 
 	private DefaultMutableTreeNode buildNodeFromString() {
 		DefaultMutableTreeNode node = null, root = null;
-		root = new DefaultMutableTreeNode("Search: " + searchField.getText());
-		
+		root = new DefaultMutableTreeNode("Query: " + searchField.getText());
+
 		for (Article key : articles) {
-			node = new DefaultMutableTreeNode(key.getDocNo());
+			node = new DefaultMutableTreeNode(key);
 			root.add(node);
 		}
 		return root;
@@ -512,25 +440,26 @@ public class SearchFrame extends javax.swing.JFrame {
 
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JRadioButton advRadio;
-	private javax.swing.JTextPane docPane;
-	private javax.swing.JLabel docTitle;
-	private javax.swing.JTree docTree;
-	private javax.swing.JButton docViewButton;
-	private javax.swing.JMenuItem exitItem;
-	private javax.swing.JMenu fileMenu;
-	private javax.swing.JLabel resultsLabel;
-	private javax.swing.JMenuBar searchBar;
-	private javax.swing.JButton searchButton;
-	private javax.swing.JTextField searchField;
-	private javax.swing.ButtonGroup searchGroup;
-	private javax.swing.JPanel searchPanel;
-	private javax.swing.JButton searchViewButton;
-	private javax.swing.JRadioButton simpleRadio;
-	private javax.swing.JScrollPane textScroll;
-	private javax.swing.JLabel titleLabel;
-	private javax.swing.JScrollPane treeScroll;
-	private javax.swing.JPanel viewPanel;
-	// End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox bodyBox;
+    private javax.swing.JTextPane docPane;
+    private javax.swing.JLabel docTitle;
+    private javax.swing.JTree docTree;
+    private javax.swing.JMenuItem exitItem;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JCheckBox headLineBox;
+    private javax.swing.JCheckBox leadParBox;
+    private javax.swing.JLabel resultsLabel;
+    private javax.swing.JMenuBar searchBar;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JPanel searchPanel;
+    private javax.swing.JButton searchViewButton;
+    private javax.swing.JLabel suggestLabel;
+    private javax.swing.JCheckBox tagsBox;
+    private javax.swing.JScrollPane textScroll;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JScrollPane treeScroll;
+    private javax.swing.JPanel viewPanel;
+    // End of variables declaration//GEN-END:variables
 }

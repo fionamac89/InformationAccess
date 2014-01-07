@@ -124,6 +124,8 @@ public class Article {
 		this.body = body;
 	}
 	
-	
+	public String toString() {
+		return "<html>"+headLine+"</html>";
+	}
 
 }

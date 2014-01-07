@@ -1,20 +1,24 @@
 package searcher;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
 import org.apache.lucene.util.Version;
 
 import parser.Article;
@@ -38,7 +42,6 @@ public class Search {
 	private Analyzer analyzer = null;
 	private Version match = null;
 	private IndexSearcher indexSearcher = null;
-	
 /**New analyser was used to match words to the text within the documents, will also
  * feature within the stemming ability of the project
  *  
@@ -46,10 +49,10 @@ public class Search {
  * @param indexSearcher - This will allow for the traversal of documents
  * @param fields 
  */
-	public Search(String query, IndexSearcher indexSearcher, String[] fields) {
+	public Search(String query, IndexSearcher indexSearcher, String[] fields, Version match) {
 		this.query = query;
 		this.fields = fields;
-		match = Version.LUCENE_43;
+		this.match = match;
 		analyzer = new EnglishAnalyzer(match,
 				EnglishAnalyzer.getDefaultStopSet(), CharArraySet.EMPTY_SET);
 		this.indexSearcher = indexSearcher;
@@ -79,18 +82,6 @@ public class Search {
 		
 
 		
-	}
-
-	private void phraseSearch() {
-
-	}
-
-	private void termSearch() {
-
-	}
-
-	private void booleanSearch() {
-
 	}
 
 	private Article getArticle(Document doc) {
