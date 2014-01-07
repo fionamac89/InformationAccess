@@ -152,7 +152,7 @@ public class ArticleIndexer {
 					Field.Store.YES));
 		}
 		if (article.getHeadLine() != null) {
-			document.add(new StringField("headline", article.getHeadLine(),
+			document.add(new TextField("headline", article.getHeadLine(),
 					Field.Store.YES));
 		}
 		if (article.getDate() != null) {

@@ -103,11 +103,7 @@ public class xmlParser extends DefaultHandler{
 	public void characters(char[] ac, int i, int j) throws SAXException {
  
 		accumulator.append(ac, i, j);
-		//System.out.println(currentLine);
-		//tmpValue = tmpValue + currentLine;
-		//tmpValue=tmpValue.replaceAll("\n", "");
 		//StringEscapeUtils.escapeXml(tmpValue);
-		//currentLine=currentLine.replaceAll("&(?!amp;)", "&amp;");
 	}
 	
 }

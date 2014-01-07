@@ -2,8 +2,6 @@ package system;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -20,7 +18,7 @@ public class SuggestWords {
 	Version match = null;
 
 	public SuggestWords(Version match) {
-		dir = new File("c:/spellchecker/");
+		dir = new File("./spellchecker/");
 		try {
 			directory = FSDirectory.open(dir);
 		} catch (IOException e) {

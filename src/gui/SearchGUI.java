@@ -2,19 +2,16 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -66,6 +63,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 	private List<Article> articles = null;
 	private WallStreetSystem system = null;
 	private String action = "contents";
+	private ImageIcon img = null;
 
 	public SearchGUI() {
 		initComponents();
@@ -103,6 +101,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		titlePanel = new JPanel();
 		group = new ButtonGroup();
 		suggestPanel = new JPanel();
+		img = new ImageIcon("./Wall-Street-Searcher.png");
 
 		searchButton.setName("searchButton");
 		searchViewButton.setName("searchView");
@@ -115,6 +114,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		setName("mainFrame"); // NOI18N
 		setResizable(true);
 		setPreferredSize(new Dimension(720, 480));
+		setIconImage(img.getImage());
 
 		headLineBox.addActionListener(new radioListener());
 		leadParBox.addActionListener(new radioListener());
