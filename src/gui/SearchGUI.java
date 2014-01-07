@@ -63,7 +63,6 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 	private List<Article> articles = null;
 	private WallStreetSystem system = null;
 	private String action = "contents";
-	private ImageIcon img = null;
 
 	public SearchGUI() {
 		initComponents();
@@ -101,7 +100,6 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		titlePanel = new JPanel();
 		group = new ButtonGroup();
 		suggestPanel = new JPanel();
-		img = new ImageIcon("./Wall-Street-Searcher.png");
 
 		searchButton.setName("searchButton");
 		searchViewButton.setName("searchView");
@@ -114,7 +112,6 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		setName("mainFrame"); // NOI18N
 		setResizable(true);
 		setPreferredSize(new Dimension(720, 480));
-		setIconImage(img.getImage());
 
 		headLineBox.addActionListener(new radioListener());
 		leadParBox.addActionListener(new radioListener());
@@ -127,6 +124,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		tagsBox.setActionCommand("in");
 		allBox.setActionCommand("contents");
 		suggestLabel.setPreferredSize(new Dimension(250, 100));
+		docPane.setContentType("text/html");
 
 		suggestPanel.setPreferredSize(new Dimension(500, 200));
 		suggestPanel.add(suggestLabel);
@@ -233,7 +231,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 		Object nodeInfo = node.getUserObject();
 		if (node.isLeaf() && nodeInfo instanceof Article) {
 			Article art = (Article) nodeInfo;
-			docPane.setText(art.printAll());
+			docPane.setText(art.displayInfo());
 		} else if (node == null || node.isRoot()) {
 			docPane.setText("No Results");
 		}
@@ -271,9 +269,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 								JOptionPane.OK_OPTION);
 				searchField.setText("");
 			} else {
-				System.out.println(action);
 				String[] fields = { action };
-
 				system.search(searchField.getText(), fields);
 				articles = system.getResults();
 				populateTree();
@@ -322,7 +318,7 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 
 			try {
 				String s = doc.getText(0, doc.getLength());
-				if (s.length() > 2) {
+				if (s.length() > 0) {
 					String suggestions[] = system.suggestions(s);
 					String temp = "<html>";
 					if (suggestions != null && suggestions.length > 0) {
@@ -331,13 +327,13 @@ public class SearchGUI extends JFrame implements TreeSelectionListener {
 						}
 						temp = temp + "</html>";
 						suggestLabel.setText(temp);
-						repaint();
+						//repaint();
 					} else {
 						temp = "No suggestions found for word:" + s;
 					}
 				} else {
 					suggestLabel.setText("");
-					repaint();
+					//repaint();
 				}
 			} catch (BadLocationException e1) {
 				// TODO Auto-generated catch block

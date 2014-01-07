@@ -15,7 +15,7 @@ import parser.Article;
 
 public class ResultsCellRenderer implements TreeCellRenderer {
 	
-	private JLabel titleLabel = new JLabel(" ");
+	private JLabel titleLabel = new JLabel("");
 	private JPanel renderer = new JPanel();
 	private DefaultTreeCellRenderer defaultRenderer = new DefaultTreeCellRenderer();
 	private Color backgroundSelectionColor;

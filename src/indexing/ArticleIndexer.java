@@ -9,12 +9,13 @@ import java.util.ArrayList;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.FieldInfo;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -180,7 +181,17 @@ public class ArticleIndexer {
 					Field.Store.YES));
 		}
 		
-		document.add(new TextField("contents", article.printAll(), Field.Store.NO));
+	    FieldType type = new FieldType();
+        type.setIndexed(true);
+        type.setIndexOptions(FieldInfo.IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
+        type.setStored(true);
+        type.setStoreTermVectors(true);
+        type.setTokenized(true);
+        type.setStoreTermVectorOffsets(true);
+	    Field field = new Field("ncontents", article.printAll(), type);
+	    document.add(field);
+	    
+		document.add(new TextField("contents", article.printAll(), Field.Store.YES));
 		IndexWriter writer = this.getIndexWriter();
 		writer.addDocument(document);
 		writer.commit();

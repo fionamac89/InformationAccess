@@ -35,6 +35,7 @@ public class WallStreetSystem {
 		}
 		this.match = Version.LUCENE_43;
 		indexSearcher = new IndexSearcher(indexReader);
+		suggester = new SuggestWords(match);
 	}
 
 	public void search(String query, String[] fields) {
@@ -48,7 +49,6 @@ public class WallStreetSystem {
 	}
 	
 	public String[] suggestions(String word) {
-            suggester = new SuggestWords(match);
             return suggester.suggest(word);
 
 	}

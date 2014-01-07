@@ -16,6 +16,7 @@ public class SuggestWords {
 	File dir = null;
 	Directory directory = null;
 	Version match = null;
+	SpellChecker spellChecker = null;
 
 	public SuggestWords(Version match) {
 		dir = new File("./spellchecker/");
@@ -26,27 +27,29 @@ public class SuggestWords {
 			e.printStackTrace();
 		}
 		this.match = match;
+		try {
+			this.spellChecker = new SpellChecker(directory);
+			spellChecker.indexDictionary(new PlainTextDictionary(new File(
+					"./dictionary/fulldictionary00.txt")), new IndexWriterConfig(match,
+					new StandardAnalyzer(match)), false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String[] suggest(String word) {
-           String[] suggestions = null;
-            try {
-                
-                SpellChecker spellChecker = new SpellChecker(directory);
-                spellChecker.indexDictionary(new PlainTextDictionary(new File(
-                        "./fulldictionary00.txt")), new IndexWriterConfig(match,
-                                new StandardAnalyzer(match)), false);
-                
-                int suggestionsNumber = 5;
-                
-                suggestions = spellChecker.suggestSimilar(word,
-                        suggestionsNumber);
-                
-                
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            return suggestions;
+		String[] suggestions = null;
+		try {
+
+			int suggestionsNumber = 5;
+
+			suggestions = spellChecker.suggestSimilar(word, suggestionsNumber);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return suggestions;
 
 	}
 }
